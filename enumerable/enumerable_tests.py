@@ -170,6 +170,77 @@ class EnumerableTests(unittest.TestCase):
         self.assertSequenceEqual(values, [2, 4])  
 
 
+    # In[]
+    def test_when_run_for_each_then_execute_method_on_each_element(self):
+        dummies = [Dummy(1, 2), Dummy(2, 4), Dummy(3, 6), Dummy(4, 8)]
+        values = []
+        Enumerable(dummies).for_each(lambda x: values.append(x.B))
+        self.assertSequenceEqual(values, [2, 4, 6, 8])
+
+
+    # In[]
+    def test_when_run_all_and_all_are_true_then_return_true(self):
+        dummies = [Dummy(1, 2), Dummy(2, 4), Dummy(3, 6), Dummy(4, 8)]
+        all_true = Enumerable(dummies).all(lambda x: x.B > 1)
+        self.assertTrue(all_true)
+
+
+    # In[]
+    def test_when_run_all_and_not_all_are_true_then_return_false(self):
+        dummies = [Dummy(1, 2), Dummy(2, 4), Dummy(3, 6), Dummy(4, 8)]
+        all_true = Enumerable(dummies).all(lambda x: x.B > 2)
+        self.assertFalse(all_true)
+
+
+    # In[]
+    def test_when_run_any_and_at_least_one_is_true_then_return_true(self):
+        dummies = [Dummy(1, 2), Dummy(2, 4), Dummy(3, 6), Dummy(4, 8)]
+        all_true = Enumerable(dummies).any(lambda x: x.B > 7)
+        self.assertTrue(all_true)
+
+
+    # In[]
+    def test_when_run_any_and_none_is_true_then_return_false(self):
+        dummies = [Dummy(1, 2), Dummy(2, 4), Dummy(3, 6), Dummy(4, 8)]
+        all_true = Enumerable(dummies).any(lambda x: x.B > 8)
+        self.assertFalse(all_true)
+
+
+    # In[]
+    def test_when_sort_then_return_values_sorted_ascending(self):
+        a = Dummy(1, 8)
+        b = Dummy(2, 6)
+        c = Dummy(3, 4)
+        d = Dummy(4, 2)
+        dummies = [a, b, c, d]
+        values = Enumerable(dummies).sort(lambda x: x.B)
+        self.assertSequenceEqual(values.to_list(), [d, c, b, a])
+
+
+    # In[]
+    def test_when_sort_descending_then_return_values_sorted_descending(self):
+        a = Dummy(1, 8)
+        b = Dummy(2, 6)
+        c = Dummy(3, 4)
+        d = Dummy(4, 2)
+        dummies = [a, b, c, d]
+        values = Enumerable(dummies).sort(lambda x: x.B, descending = True)
+        self.assertSequenceEqual(values.to_list(), [a, b, c, d])
+
+
+    # In[]
+    def test_when_group_by_member_then_return_correct_dictionary(self):
+        a = Dummy(1, "a")
+        b = Dummy(1, "b")
+        c = Dummy(2, "c")
+        d = Dummy(2, "d")
+        e = Dummy(3, "e")
+        dummies = [a, b, c, d, e]
+        values = Enumerable(dummies).group_by(lambda x: x.A)
+        self.assertIsInstance(values, dict)
+        self.assertDictEqual(values, {1 : [a, b], 2 : [c, d], 3 : [e]})
+
+
 # In[]
 if __name__ == '__main__':
     unittest.main()

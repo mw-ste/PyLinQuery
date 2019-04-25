@@ -54,6 +54,45 @@ class Enumerable:
 
 
     # In[]
+    def for_each(self, method):
+        Enumerable._check_is_function(method)
+        for element in self._get_values():
+            method(element)
+
+
+    # In[]
+    def all(self, method):
+        Enumerable._check_is_function(method)
+        return all([method(element) for element in self._get_values()])
+
+
+    # In[]
+    def any(self, method):
+        Enumerable._check_is_function(method)
+        return any([method(element) for element in self._get_values()])
+
+
+    # In[]
+    def sort(self, method, descending = False):
+        Enumerable._check_is_function(method)
+#        values = [method(element) for element in self._get_values()]
+        values = sorted(self._get_values(), key = method, reverse = descending)
+        return Enumerable(values)
+
+
+    # In[]
+    def group_by(self, method):
+        Enumerable._check_is_function(method)
+        grouped = {}
+        for element in self._get_values():
+            key = method(element)
+            if not key in grouped.keys():
+                grouped[key] = []
+            grouped[key].append(element)
+        return grouped
+
+
+    # In[]
     def _get_values(self):
         return self._generator()
 
