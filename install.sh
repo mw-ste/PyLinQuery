@@ -1,4 +1,5 @@
 #!/bin/bash
+cd "${BASH_SOURCE%/*}/"
 
 echo " > Building python wheel..."
 python3 setup.py bdist_wheel > /dev/null
