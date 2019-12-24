@@ -75,7 +75,6 @@ class Enumerable:
     # In[]
     def sort(self, method, descending = False):
         Enumerable._check_is_function(method)
-#        values = [method(element) for element in self._get_values()]
         values = sorted(self._get_values(), key = method, reverse = descending)
         return Enumerable(values)
 
